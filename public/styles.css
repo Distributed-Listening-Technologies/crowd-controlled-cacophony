@@ -1,0 +1,242 @@
+body {
+    font-family: Arial, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.main-column,
+.visualization-column {
+    flex: 1;
+    min-width: 300px;
+}
+
+.panel {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+p {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    line-height: 1.4;
+}
+
+#user-controls {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+    display: none;
+}
+
+#user-controls.visible {
+    display: block;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.parameter {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.parameter label {
+    flex: 1;
+    margin-right: 10px;
+}
+
+button {
+    padding: 7px 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.3s;
+    margin-left: 2px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#playback-info {
+    margin-bottom: 20px;
+}
+
+#progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+#progress-bar {
+    width: 0;
+    height: 100%;
+    background-color: #4CAF50;
+    transition: width 0.1s linear;
+}
+
+#scrubber {
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+    transform: translateX(-50%);
+    transition: left 0.1s linear;
+}
+
+#time-display {
+    margin-top: 10px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.param-visualization {
+    margin-bottom: 20px;
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.param-visualization h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    color: #333;
+    font-size: 16px;
+}
+
+.value-bar-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.value-bar-label {
+    width: 100px;
+    font-size: 14px;
+    padding-left: 10px;
+    z-index: 1;
+    position: relative;
+}
+
+.value-bar-wrapper {
+    flex-grow: 1;
+    height: 24px;
+    background-color: #e0e0e0;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin-left: 10px;
+}
+
+.value-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+    position: absolute;
+    left: 0;
+    top: 0;
+    border-radius: 12px;
+}
+
+.value-bar::after {
+    content: attr(data-value);
+    position: absolute;
+    right: 10px;
+    color: white;
+    line-height: 24px;
+}
+
+.individual .value-bar {
+    background-color: #4CAF50;
+}
+
+.governance .value-bar {
+    background-color: #2196F3;
+}
+
+#aggregate-display div {
+    margin-bottom: 5px;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+#governance-model-info {
+    font-size: 14px;
+    color: #666;
+    margin-bottom: 15px;
+    font-style: italic;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+}
+
+select {
+    padding: 6px 12px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #fff;
+    margin-right: 10px;
+}
+
+#governance-model-selector {
+    margin-left: 12px;
+}
+
+#dj-panel-container,
+#playback-info-container,
+#user-controls-container,
+#aggregate-display-container,
+#governance-visualization-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .main-column,
+    .visualization-column {
+        width: 100%;
+    }
+}

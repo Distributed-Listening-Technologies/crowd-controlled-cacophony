@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crowd-Controlled Cacophony</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="main-column">
+            <div id="dj-panel-container">
+                <h2>DJ Controls</h2>
+                <p>Select a track, choose a governance model, and control playback here.</p>
+                <div id="dj-panel"></div>
+            </div>
+            <div id="playback-info-container">
+                <h2>Playback Information</h2>
+                <p>This shows the current playback progress and duration of the track.</p>
+                <div id="playback-info">
+                    <div id="progress-container">
+                        <div id="progress-bar"></div>
+                    </div>
+                    <div id="time-display">
+                        <span id="current-time">0:00</span> / <span id="duration">0:00</span>
+                    </div>
+                </div>
+            </div>
+            <div id="user-controls-container">
+                <h2>User Controls</h2>
+                <p>Use these controls to adjust various parameters of the audio. Your inputs will be processed according
+                    to the selected governance model.</p>
+                <div id="user-controls">
+                    <div class="parameter">
+                        <label for="playbackRate">Tempo</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="parameter">
+                        <label for="pitchShift">Pitch</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="parameter">
+                        <label for="eqLow">EQ Low</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="parameter">
+                        <label for="eqMid">EQ Mid</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="parameter">
+                        <label for="eqHigh">EQ High</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                    <div class="parameter">
+                        <label for="reverb">Reverb</label>
+                        <button class="decrease">-</button>
+                        <button class="increase">+</button>
+                    </div>
+                </div>
+            </div>
+            <div id="aggregate-display-container">
+                <h2>Aggregate Display</h2>
+                <p>This shows the current individual and governance values for each parameter.</p>
+                <div id="aggregate-display"></div>
+            </div>
+        </div>
+        <div class="visualization-column">
+            <div id="governance-visualization-container">
+                <h2>Governance Visualization</h2>
+                <p>This visualization shows how the governance model affects user inputs. The green bar represents your
+                    individual input, while the blue bar shows the final governed value.</p>
+                <div id="governance-model-info"></div>
+                <div id="governance-visualization"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/15.0.4/Tone.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/src/audioEngine.js"></script>
+    <script src="/src/governanceModel.js"></script>
+    <script src="/src/userInterface.js"></script>
+    <script src="/src/djPanel.js"></script>
+    <script src="/src/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('DOM content loaded');
+            const audioEngine = new AudioEngine();
+            const governanceModel = new GovernanceModel();
+            const userInterface = new UserInterface(audioEngine, governanceModel);
+            const djPanel = new DJPanel(audioEngine, governanceModel, userInterface);
+            djPanel.render();
+            console.log('DJ panel rendered');
+
+            // Update governance model info
+            function updateGovernanceModelInfo() {
+                const modelSelector = document.getElementById('governance-model-selector');
+                const governanceModelInfo = document.getElementById('governance-model-info');
+                const currentModel = modelSelector.value;
+                let explanation = '';
+
+                switch (currentModel) {
+                    case 'anarchy':
+                        explanation = 'In anarchy mode, your inputs are applied directly without any moderation.';
+                        break;
+                    case 'democracy':
+                        explanation = 'In democracy mode, all inputs are averaged to determine the final value.';
+                        break;
+                    case 'liquidDemocracy':
+                        explanation = 'In liquid democracy mode, users can delegate their votes to others, creating a more dynamic decision-making process.';
+                        break;
+                    case 'sociocracy':
+                        explanation = 'In sociocracy mode, decisions are made through consent-based governance within smaller groups.';
+                        break;
+                }
+
+                governanceModelInfo.textContent = explanation;
+            }
+
+            // Initial update and event listener for governance model changes
+            updateGovernanceModelInfo();
+            document.getElementById('governance-model-selector').addEventListener('change', updateGovernanceModelInfo);
+        });
+    </script>
+</body>
+
+</html>
